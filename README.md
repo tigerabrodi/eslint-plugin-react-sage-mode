@@ -78,7 +78,7 @@ function Component() {
 
 ## Note
 
-This is a toy project created to learn about ESLint plugin development and React performance patterns. Feel free to use it in your projects, but be aware it might not catch all edge cases.
+This is a toy project created to learn about ESLint plugin development. Feel free to use it in your projects, but be aware it might not catch all edge cases.
 
 ## License
 
