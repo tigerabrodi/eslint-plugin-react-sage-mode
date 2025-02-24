@@ -1,4 +1,5 @@
 import { ESLintUtils } from "@typescript-eslint/utils";
+import { isCustomComponent } from "../lib/utils";
 
 export const noInlineObject = ESLintUtils.RuleCreator(
   (name) =>
@@ -19,17 +20,26 @@ export const noInlineObject = ESLintUtils.RuleCreator(
   defaultOptions: [],
   create(context) {
     return {
-      JSXAttribute(node) {
-        // Would match an inline object like this:
-        // <button style={{}}>
-        if (
-          node.value?.type === "JSXExpressionContainer" &&
-          node.value.expression.type === "ObjectExpression"
-        ) {
-          context.report({
-            node: node.value.expression,
-            messageId: "noInlineObject",
-          });
+      JSXOpeningElement(node) {
+        // Skip HTML elements, only check components (uppercase names)
+        const tagName =
+          node.name.type === "JSXIdentifier" ? node.name.name : null;
+        if (!tagName || !isCustomComponent(tagName)) {
+          return;
+        }
+
+        // Check all attributes
+        for (const attribute of node.attributes) {
+          if (
+            attribute.type === "JSXAttribute" &&
+            attribute.value?.type === "JSXExpressionContainer" &&
+            attribute.value.expression.type === "ObjectExpression"
+          ) {
+            context.report({
+              node: attribute.value.expression,
+              messageId: "noInlineObject",
+            });
+          }
         }
       },
     };

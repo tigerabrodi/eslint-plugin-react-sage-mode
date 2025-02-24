@@ -22,34 +22,51 @@ ruleTester.run("no-inline-object", noInlineObject, {
       code: `
         const styles = { color: 'red' };
         function Component() {
-          return <div style={styles} />;
+          return <Button style={styles} />;
         }
-      `, // Using object reference is good
+      `, // Using object reference with component is good
+    },
+    {
+      code: `
+        function Component() {
+          return <div style={{color: "red"}} />;
+        }
+      `, // Inline object on HTML element is allowed
+    },
+    {
+      code: `
+        function Component() {
+          return <span data-config={{enabled: true}} />;
+        }
+      `, // Inline object on HTML element is allowed
     },
     {
       code: `
         const props = { id: 'test' };
-        const element = <div {...props} />;
+        const element = <Button {...props} />;
       `, // Spread operator is fine
     },
     {
       code: `
         function Component() {
-          const onClick = { current: null };
-          return <div ref={onClick} />;
+          return <input value={{}} onChange={() => {}} />;
         }
-      `, // Object used outside JSX attribute value is okay
+      `, // HTML elements with inline objects are fine
     },
   ],
   invalid: [
     {
-      code: 'function Component() { return <div style={{color: "red"}} />; }',
+      code: `
+        function Component() {
+          return <Button style={{color: "red"}} />;
+        }
+      `,
       errors: [{ messageId: "noInlineObject" }],
     },
     {
       code: `
         function Component() {
-          return <Button customStyles={{ padding: '1rem' }} />;
+          return <CustomInput config={{ enabled: true }} />;
         }
       `,
       errors: [{ messageId: "noInlineObject" }],
@@ -57,9 +74,9 @@ ruleTester.run("no-inline-object", noInlineObject, {
     {
       code: `
         const Component = () => (
-          <div aria-label={{
-            disabled: true,
-            description: 'test'
+          <Modal options={{
+            closable: true,
+            width: 500
           }} />
         );
       `,
@@ -69,9 +86,9 @@ ruleTester.run("no-inline-object", noInlineObject, {
       code: `
         function Component() {
           return (
-            <div 
-              style={{margin: '1rem'}}
-              data-test={{id: 'test'}}
+            <Form 
+              layout={{type: 'horizontal'}}
+              validation={{required: true}}
             />
           );
         }
