@@ -2,3 +2,7 @@
 export function isCustomComponent(name: string) {
   return /^[A-Z]/.test(name);
 }
+
+export function isEventProp(name: string) {
+  return /^on[A-Z]/.test(name);
+}
