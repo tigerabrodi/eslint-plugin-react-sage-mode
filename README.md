@@ -2,6 +2,8 @@
 
 ESLint plugin with rules to help avoid common React performance pitfalls.
 
+Named "Sage Mode" because I'm a big naruto fan lol
+
 # How I recommend using this plugin (if you wanna use it)
 
 Use it like Knip. Turn it on time to time to check for performance issues.
