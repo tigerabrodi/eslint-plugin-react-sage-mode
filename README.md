@@ -2,6 +2,10 @@
 
 ESLint plugin with rules to help avoid common React performance pitfalls.
 
+# How I recommend using this plugin (if you wanna use it)
+
+Use it like Knip. Turn it on time to time to check for performance issues.
+
 ## Installation
 
 ```bash
@@ -79,6 +83,8 @@ function Component() {
 ## Note
 
 This is a toy project created to learn about ESLint plugin development. Feel free to use it in your projects, but be aware it might not catch all edge cases.
+
+You're better off using [Million Lint](https://million.dev/docs).
 
 ## License
 
